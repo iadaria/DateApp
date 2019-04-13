@@ -1,0 +1,124 @@
+<!-- <form #registerForm="ngForm" (ngSubmit)="register()"> -->
+    <!--We no longer user a template form anymore, user react form-->
+<form [formGroup]="registerForm" (ngSubmit)="register()">
+    <h2 class="text-center text-primary">Регистрация</h2>
+    <hr>
+
+    <div class="form-group">
+        <label class="control-label" style="margin-right:10px">Я: </label>
+        <label class="radio-inline">
+            <input class="mr-3" type="radio" value="male" formControlName="gender">Мужчина
+        </label>
+        <label class="radio-inline ml-3">
+            <input class="mr-3" type="radio" value="female" formControlName="gender">Женщина
+        </label>
+    </div>
+
+    <div class="form-group">
+        <!--this deleted attribute - require and [(ngModel)]="model.username" because user react form-->
+        <input type="text" 
+            [ngClass]="{'is-invalid': registerForm.get('username').errors 
+                && registerForm.get('username').touched}" 
+            class="form-control" 
+            formControlName="username" 
+            placeholder="Логин"
+            alt="Логин">
+        <div class="invalid-feedback">Пожалуйста, введите логин</div>
+    </div>
+
+    <div class="form-group">
+        <input [ngClass]="{'is-invalid': registerForm.get('knownAs').errors && registerForm.get('knownAs').touched}" 
+            class="form-control"
+            placeholder="Имя для отображения на сайте" formControlName="knownAs">
+        <div class="invalid-feedback" 
+            *ngIf="registerForm.get('knownAs').touched 
+            && registerForm.get('knownAs').hasError('required')">
+           Представьтесь, пожалуйста
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input [ngClass]="{'is-invalid': registerForm.get('dateOfBirth').errors && registerForm.get('dateOfBirth').touched}" 
+            class="form-control"
+            placeholder="Дата рождения" 
+            formControlName="dateOfBirth" type="text" bsDatepicker [bsConfig]="bsConfig">
+        <div class="invalid-feedback" 
+            *ngIf="registerForm.get('dateOfBirth').touched 
+                && registerForm.get('dateOfBirth').hasError('required')">
+                Дата рождения обязательна
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input [ngClass]="{'is-invalid': registerForm.get('city').errors && registerForm.get('city').touched}" 
+            class="form-control"
+            placeholder="Город" formControlName="city">
+        <div class="invalid-feedback" 
+            *ngIf="registerForm.get('city').touched 
+                && registerForm.get('city').hasError('required')">
+                Введите город
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <input [ngClass]="{'is-invalid': registerForm.get('country').errors && registerForm.get('country').touched}" 
+            class="form-control"
+            placeholder="Страна" formControlName="country">
+        <div class="invalid-feedback" 
+            *ngIf="registerForm.get('country').touched 
+                && registerForm.get('country').hasError('required')">
+                Введите страну
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="password" 
+            [ngClass]="{'is-invalid': registerForm.get('password').errors 
+                && registerForm.get('password').touched}" 
+            class="form-control" 
+            formControlName="password"
+            placeholder="Пароль">
+        <div class="invalid-feedback" 
+            *ngIf="registerForm.get('password').hasError('required')
+                && registerForm.get('password').touched">
+                Введите пароль от 4 до 8 символов
+        </div>
+        <div class="invalid-feedback" 
+            *ngIf="registerForm.get('password').hasError('minlength')
+                && registerForm.get('password').touched">
+                Пароль должен быть больше 4 символов
+        </div>
+        <div class="invalid-feedback" 
+            *ngIf="registerForm.get('password').hasError('maxlength')
+                && registerForm.get('password').touched">
+                Пароль не должен превышать 8 символов
+        </div>
+        
+    </div>
+
+    <div class="form-group">
+        <input type="password" 
+            [ngClass]="{'is-invalid': registerForm.get('confirmPassword').errors 
+                && registerForm.get('confirmPassword').touched
+                || registerForm.get('confirmPassword').touched
+                && registerForm.hasError('mismatch')}" 
+            class="form-control" 
+            formControlName="confirmPassword"
+        placeholder="Подтвердите пароль">
+        <div class="invalid-feedback" 
+            *ngIf="registerForm.get('confirmPassword').hasError('required')
+                && registerForm.get('confirmPassword').touched">
+                Введите пароль
+        </div>
+        <div class="invalid-feedback" 
+            *ngIf="registerForm.hasError('mismatch')
+                && registerForm.get('confirmPassword').touched">
+                Пароли должны совпадать
+        </div>
+    </div>
+
+    <div class="form-group text-center">
+        <button class="btn btn-success" [disabled]="!registerForm.valid" type="submit">Зарегистрироваться</button>
+        <button class="btn btn-primary" type="button" (click)="cancel()">Отмена</button>
+    </div>
+</form>
