@@ -1,2 +1,2 @@
 # DateApp
-Тестовый репозиторий
+Asp.net + Angular
